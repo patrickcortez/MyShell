@@ -1,10 +1,12 @@
 # Structure
 
-The *src* folder only has 1 file for now:
+The *src* folder has:
 
  - **main.cpp** : this contains the source code of the shell, more components will be added soon.
+
+ - **/lib** : this folder contains all header files the shell will be using.
     
-Inside **main.cpp** we used 7 different libraries for our shell:
+Inside **main.cpp** we used 9 different libraries for our shell:
 
  - *iostream* : for our shells input and output
 
@@ -19,6 +21,14 @@ Inside **main.cpp** we used 7 different libraries for our shell:
  - *fstream* : for future file operations
 
  - *filesystem* : to navigate the users file system.
+
+Custom Headers:
+
+ - *process.hpp* : for process handling and creation
+
+ - *utility.hpp* : for specialized helpers
+
+
 
 Inside **main.cpp** the shell is using a basic while loop for its exection and a
 basic if-else evaluator. This might be changed in the future, but we'll see.
