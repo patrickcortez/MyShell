@@ -54,7 +54,7 @@ int main(int argc,char *argv[]){
         ss >> cmd; //grab the first input of the user
 
         //input evaluator
-        if(cmd == "help"){
+        if(cmd == "help"){ // to print help for the user
             printHelp();
         }else if(cmd == "say"){ // basic command for tesing
             std::string msg; //we declare a msg variable to capture the users input when using say
@@ -65,7 +65,7 @@ int main(int argc,char *argv[]){
 
         }else if(cmd == "exit"){ //exit shell only told so
             exit(0);
-        }else{ // command does not exist we return an error, duhh
+        }else{ // command does not exist we return an error, duhh... but we will put our command watcher here soon
             printError("MyShell: " + cmd + " command does not Exist");
         }
 
