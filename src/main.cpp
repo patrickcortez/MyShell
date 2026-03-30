@@ -7,17 +7,21 @@
 #include <csignal> //to handle signals
 #include <cstdlib> 
 
-using namespace std::filesystem;
+//My Libraries
+#include "lib/process.hpp"
+#include "lib/utility.hpp"
+
+using namespace std::filesystem; //so i dont have to type std::filesystem:: -_-
 
 void sighandler(int sig){ // we handle sigint by making a newline
     std::cout << "\n"; //TODO fix this so it enters returns to a new line, instead of an infinity loop of new lines.
 }
 
 path getHomeDir(){ // get the home dir of user, using cstdlib's getenv
-    return getenv("USERPROFILE"); // TODO clean the extra '\' from the path, and the qoutes
+    return getenv("USERPROFILE");
 }
 
-void printHelp(){
+void printHelp(){ //for user convenience
     std::cout << "MyShell Commands: \n";
     std::cout << "=====================\n";
     std::cout << "  help : Displays the lists of commands available.\n";
@@ -33,6 +37,23 @@ void printError(const std::string& msg){
     std::cout << "\033[91m" << msg << std::endl;
 }
 
+void execute_exe(std::string name,path& tmp){ //function responsible for executing external executables
+
+    //before executing we check if the exe file does indeed exist, if not
+    if(!exists(tmp / name) && !is_directory(tmp / name)){ //we throw an error
+        std::cerr << "\033[91m\n" << "MyShell: " << name << " file not found!\n";
+        return;
+    }else if(!exists(tmp / name) && is_directory(tmp / name)){
+        std::cerr << "\033[91m\n" << "MyShell: " << name << " is a directory!\n";
+        return;
+    }
+    //execute after the exe passes the guard clause
+    if (!cortez::Execute_External(cortez::Trim("./",name))){ //if it failed to run then we throw an error
+        std::cerr << "\033[91m\n" << "MyShell: " << name << " failed to start!\n";
+        return;
+    }
+}
+
 // main function of the shell, we will put our final execution here.
 int main(int argc,char *argv[]){
     std::signal(SIGINT,sighandler); //ignore sigint
@@ -40,12 +61,16 @@ int main(int argc,char *argv[]){
     std::string input; // we declare our input variable to tokenize later
     bool done = false; // to signify, if we want to end the execution loop or not
     path curr = getHomeDir(); // init our current path, 
+    std::string cleancurr = curr.string();
+
+    char c_str[1] = {'"'};
+    cortez::Ult_Trim(c_str,cleancurr); //we trim the quotes
+    cortez::replace_all(cleancurr,"\\\\","\\"); //then replace the \\ with '\'
 
     while(done == false){ //execution loop
 
-        std::cout << "MyShell:" << curr << "$ "; //print our prompt
+        std::cout << "\n\e[0;33mMyShell:\e[0;36m" << cleancurr << "$ "; //print our prompt
         std::getline(std::cin,input); // get input from user
-        std::cout << std::endl; // for proper output formatting
 
         std::stringstream ss(input); // tokenize the users input to pass in the evaluator later
 
@@ -65,11 +90,11 @@ int main(int argc,char *argv[]){
 
         }else if(cmd == "exit"){ //exit shell only told so
             exit(0);
+        }else if(cortez::contains("./",cmd)){ //to execute external executables found in the filesystem
+            execute_exe(cmd,curr);
         }else{ // command does not exist we return an error, duhh... but we will put our command watcher here soon
             printError("MyShell: " + cmd + " command does not Exist");
         }
-
-        std::cout << std::endl; // for proper formatting
 
     }
 
