@@ -57,8 +57,10 @@ namespace cortez{
                     }else if(c == '\b'){ //backspace key
                         if(!data.empty()){
                             data.pop_back();
-                            out("\b");
+                            out("\b \b");
                         }
+                    }else if(c == 3){ // to prevent a forever loop, break when its sigint
+                        break;
                     }else if(isprint(c)){ //letters,special characters and numbers
                         data += c;
                         std::string s(1,c);

@@ -8,10 +8,10 @@ if %ERRORLEVEL% EQU 0 (
 
     git add -A
 
-    if "%~1" == "" (
+    if %1 == "" (
         echo "Commit Message cannot be empty"
     ) else (
-        git commit -m "%~1"
+        git commit -m %1 
     )
 ) else (
     echo "Git not installed!"

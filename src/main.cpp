@@ -155,7 +155,7 @@ int main(int argc,char *argv[]){
         ss >> cmd; //grab the first input of the user
 
         if(interrupted >= 1){
-            iohandle.out("\n");
+            iohandle.out("\n\n");
             interrupted = 0;
         }
 
@@ -165,9 +165,10 @@ int main(int argc,char *argv[]){
         }else if(cmd == "say"){ // basic command for tesing
             std::string msg; //we declare a msg variable to capture the users input when using say
             std::getline(ss,msg); //capture the entire message
+            msg.erase(msg.begin()); //we erase the first character since its always ' '
 
             // print the users message
-            printSay(msg,iohandle); //TODO replace cout with my own I/O layer
+            printSay(msg,iohandle);
 
         }else if(cmd == "exit"){ //exit shell only told so
             exit(0);
@@ -197,7 +198,9 @@ int main(int argc,char *argv[]){
         }else if(cmd == "pwd"){ //output the present working directory to terminal
             std::string ncur = cortez::Trim(c_str,current_path().string()); // we trim qoutes from the ncur string variable
             cortez::replace_all(ncur,"\\\\","\\"); //then trim the double qoutes into one qoute by replacing them using our helper
-            std::cout << ncur << "\n";
+            iohandle.out( ncur + "\n");
+        }else if(cmd.empty()){ //we finally ignore sigint
+            continue;
         }else{ // command does not exist we return an error, duhh... but we will put our command watcher here soon
             printError("MyShell: " + cmd + " command does not Exist",iohandle); //TODO, Make the cmds folder watcher, which should be relatively easy
         }
