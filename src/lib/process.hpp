@@ -38,8 +38,8 @@ namespace cortez{
         WaitForSingleObject(prinf.hProcess,INFINITE);
 
         //Close our handles after the process is done
-        CloseHandle(&prinf);
-        CloseHandle(&sinf);
+        CloseHandle(prinf.hProcess);
+        CloseHandle(prinf.hThread);
 
         return true; // we then return true after successful execution
     }

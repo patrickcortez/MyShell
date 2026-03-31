@@ -24,3 +24,8 @@ March 31, 2026
 
 I finally fixed the directory navigation, turns out I am not parsing curr properly at all.
 I fixed it, took be an hour to figure it out, wtf T_T.
+
+*5:52 PM*
+
+I finally added the I/O layer and replaced all the couts, and remained one cerr, just incase the screen buffer doesnt get made.
+I just reused my I/O handler from my text adventure game **Deathly Hollows**.
