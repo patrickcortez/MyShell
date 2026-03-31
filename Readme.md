@@ -10,18 +10,18 @@ The compiler being used is MingW64, downloaded using [MSYS2 UCRT64](https://www.
 it will contain most of its commands and also having the ability to use other services that are in the
 users *PATH*.
 
-     - **/src** : This folder will contain all of the source code for **MyShell**.
+ - **/src** : This folder will contain all of the source code for **MyShell**.
 
-     - **/bin** : This folder will contain all of the binary executables
+ - **/bin** : This folder will contain all of the binary executables
 
-     - **/docs** : This folder will contain all documentations regarding the shell.
+ - **/docs** : This folder will contain all documentations regarding the shell.
 
 ## Set-up
 
 To set up **MyShell** you would need:
 
-     - MingW64 (to compile **MyShell**)
-     - MSYS2 UCRT64 (to download MingW64)
+ - MingW64 (to compile **MyShell**)
+ - MSYS2 UCRT64 (to download MingW64)
 
 After acquiring *MingW64* just run:
 
