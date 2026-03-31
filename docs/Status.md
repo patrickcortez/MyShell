@@ -13,3 +13,7 @@ I finally added a process handler in process.hpp for myshell which will be helpf
 It only creates a new process for the shell and waits for it to finish, then closes  the handles. its made with CreateProcessA,
 its so mind blowing how much I've learned by just reading windows documentation on windows.h. I also added some string helpers in
 utility like Ult_Trim and Trim, and replace_all. which are all utilizing the algorithm libraries functions, its the gift that keeps on giving =D.
+
+*9:52 PM*
+
+Directory navigation is still broken, But i will fix it tomorrow, I'm getting sleepy and my laptop is on 5% =<.
