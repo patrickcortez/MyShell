@@ -33,6 +33,10 @@ namespace cortez{
 
             void out(const std::string& msg){ // simple output handler
                 DWORD cbuff; // we declare our buffer to use to write to console
+
+                if(!check){ // a guard clause to make sure there is an actual screen buffer
+                    return;
+                }
  
                 WriteConsoleA( //finally we write to terminal
                     *currbuff,

@@ -17,7 +17,7 @@ namespace cortez{
         STARTUPINFOA sinf = {0}; //we init the start up info and process info for the process
         PROCESS_INFORMATION prinf = {0};
 
-       bool success =  CreateProcessA( //we create start a process with windows CreateProcessA by passing the exe name after the './' delimiter
+       bool success =  CreateProcessA( //we create start a process with windows CreateProcessA by passing the exe name after the './' prefix
             NULL,
             exe_name.data(),
             NULL,
