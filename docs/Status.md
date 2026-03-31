@@ -29,3 +29,7 @@ I fixed it, took be an hour to figure it out, wtf T_T.
 
 I finally added the I/O layer and replaced all the couts, and remained one cerr, just incase the screen buffer doesnt get made.
 I just reused my I/O handler from my text adventure game **Deathly Hollows**.
+
+*6:55 PM*
+
+Small update: I finally fixed the sigint looping issue since i have my own input handler =D, by breaking the input loop.
