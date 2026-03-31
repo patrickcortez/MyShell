@@ -24,6 +24,10 @@ namespace cortez{
 
 
         bool navigateDir(const std::string Npath){ //handler to navigate directories
+
+            if(!is_directory(*currpath / Npath)){ // guard clause incase it is exists but isnt a directory
+                return false;
+            }
             
             if(Npath == ".."){ //if the Npath entered is ".." we go back to the parent path
                 *this->currpath = currpath->parent_path();

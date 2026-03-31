@@ -17,3 +17,10 @@ utility like Ult_Trim and Trim, and replace_all. which are all utilizing the alg
 *9:52 PM*
 
 Directory navigation is still broken, But i will fix it tomorrow, I'm getting sleepy and my laptop is on 5% =<.
+
+March 31, 2026
+
+*11:38 AM*
+
+I finally fixed the directory navigation, turns out I am not parsing curr properly at all.
+I fixed it, took be an hour to figure it out, wtf T_T.

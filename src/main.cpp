@@ -9,6 +9,11 @@
 #include <cstdlib>  //for getenv()
 #include <direct.h> //for _chdir()
 
+/*
+*   This Project is under GNU General Public License V3, Check LICENSE for more details.
+*   Feel free to modify and distribute. =P
+*/
+
 //My Libraries
 #include "lib/process.hpp"
 #include "lib/utility.hpp"
@@ -16,9 +21,10 @@
 
 using namespace std::filesystem; //so i dont have to type std::filesystem:: -_-
 
+volatile int interrupted = 0;
+
 void sighandler(int sig){ // we handle sigint by making a newline
-    std::cout << "\n"; //TODO fix this so it enters returns to a new line, instead of an infinity loop of new lines.
-    return;
+    interrupted  = 1;
 }
 
 path getHomeDir(){ // get the home dir of user, using cstdlib's getenv
@@ -77,7 +83,10 @@ void execute_exe(std::string name,path& tmp){ //function responsible for executi
 
 // main function of the shell, we will put our final execution here.
 int main(int argc,char *argv[]){
-    std::signal(SIGINT,sighandler); //ignore sigint
+
+    //TODO, probably put the initialization of Screen buffer and screen info here, before the main loop
+
+    std::signal(SIGINT,sighandler); // ignore sigint
 
     std::string input; // we declare our input variable to tokenize later
     bool done = false; // to signify, if we want to end the execution loop or not
@@ -102,6 +111,11 @@ int main(int argc,char *argv[]){
 
         ss >> cmd; //grab the first input of the user
 
+        if(interrupted >= 1){
+            std::cout << "\n";
+            interrupted = 0;
+        }
+
         //input evaluator
         if(cmd == "help"){ // to print help for the user
             printHelp();
@@ -110,7 +124,7 @@ int main(int argc,char *argv[]){
             std::getline(ss,msg); //capture the entire message
 
             // print the users message
-            printSay(msg);
+            printSay(msg); //TODO replace cout with my own I/O layer
 
         }else if(cmd == "exit"){ //exit shell only told so
             exit(0);
@@ -123,22 +137,28 @@ int main(int argc,char *argv[]){
             std::cout << "args: " << args << "\n"; //debug args variable,
            
             if(!fhandler.navigateDir(cortez::Trim(" ",args))){  //call the method to navigate directory but we make sure that the directory actually exists
-                printError("MyShell" + args + " Directory doesnt exist or is not a directory!");
+                
+                //if the nav fails, then we throw in an error, BUT what?
+
+                if(!exists(curr / args)){ // A! It doesnt exist =0
+                    printError("MyShell" + args + " Directory doesnt exist!");
+                }
+
+                if(!is_directory(curr / args) &&  exists(curr / args)){ // OR B! IT DOES! but its not a directory.... You silly goose =D
+                    printError("MyShell" + args + " is not a directory!");
+                }
             }
 
         }else if(cmd == "wipe"){ //clearscreen for convinience
-            clearscreen();
-        }else if(cmd == "^C"){ //if ctrl c is hit we ignore it
-            continue;
+            clearscreen(); //TODO, make its own screen buffer, and enable VT
         }else if(cmd == "pwd"){ //output the present working directory to terminal
             std::string ncur = cortez::Trim(c_str,current_path().string()); // we trim qoutes from the ncur string variable
             cortez::replace_all(ncur,"\\\\","\\"); //then trim the double qoutes into one qoute by replacing them using our helper
             std::cout << ncur << "\n";
         }else{ // command does not exist we return an error, duhh... but we will put our command watcher here soon
-            printError("MyShell: " + cmd + " command does not Exist");
+            printError("MyShell: " + cmd + " command does not Exist"); //TODO, Make the cmds folder watcher, which should be relatively easy
         }
 
     }
-
 
 }
